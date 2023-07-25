@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./Cities.scss";
+import "../../assets/styles/layouts/Cities.scss";
 
 const Cities = () => {
   return <div></div>;

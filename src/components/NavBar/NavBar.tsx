@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import { SearchBar } from "../SearchBar/SearchBar";
-import "./navBar.scss";
+import "../../assets/styles/components/NavBar.scss";
 import DocData from "../Data.json";
 
 //import { ModalAuth } from "../ModalAuth/ModalAuth";
 import { Modal } from "../ModalAuth/Modal";
 import { log } from "console";
-import Signin from "../ConnexionBtn/SignIn";
+import Signin from "../SignInButton/SignIn";
 import { useUser } from "../../context/UserContext";
 
 export const links = [

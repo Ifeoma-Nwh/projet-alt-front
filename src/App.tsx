@@ -1,12 +1,15 @@
 import { useState } from "react";
-import "./App.scss";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+
+import NavBar from "./components/NavBar/NavBar";
+import Main from "./components/Main/Main";
+
+import "./App.scss";
+
 // import { Route, Routes } from "react-router-dom";
 // import Form from "./components/forms/Form";
-import NavBar from "./components/NavBar/NavBar";
 // import Cities from "./components/Cities/Cities";
 // import Contact from "./components/Contact/Contact";
-import Main from "./components/Main/Main";
 // import DocData from "./components/Data.json";
 
 // import Home from "./components/Home";

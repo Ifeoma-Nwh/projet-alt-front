@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Contact.scss";
+import "../../assets/styles/layouts/Contact.scss";
 import { FormInput } from "../FormInput/FormInput";
 
 type InputName =

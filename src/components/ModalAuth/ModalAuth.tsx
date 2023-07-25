@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from "react";
-import "./modalAuth.scss";
+import "../../assets/styles/components/ModalAuth.scss";
 import { createUser, signin } from "../../graphql/users.server";
 import { useMutation } from "@apollo/client";
 import Modal from "../Modal/Modal";
