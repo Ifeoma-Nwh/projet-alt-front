@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ModalAuth } from "../ModalAuth/ModalAuth";
-import "./SignIn.scss";
+import "../../assets/styles/components/SignIn.scss"
 
 function ConnexionBtn() {
   const [isOpen, setIsOpen] = useState(false);

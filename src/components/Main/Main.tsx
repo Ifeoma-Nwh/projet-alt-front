@@ -5,7 +5,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import DocData from "../../components/Data.json";
 import Map from "../Maps/Map";
 
-import "./Main.scss";
+import "../../assets/styles/layouts/Main.scss";
 import Home from "../Home";
 import Contact from "../Contact/Contact";
 import Cities from "../Cities/Cities";

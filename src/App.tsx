@@ -5,19 +5,6 @@ import NavBar from "./components/NavBar/NavBar";
 import Main from "./components/Main/Main";
 
 import "./App.scss";
-import "./assets/styles/common/fonts.scss";
-import "./assets/styles/common/mixins.scss";
-import "./assets/styles/common/variables.scss";
-
-//Fonts
-import "./assets/fonts/Nunito-Bold.woff";
-import "./assets/fonts/Nunito-Bold.woff2";
-import "./assets/fonts/Nunito-Medium.woff";
-import "./assets/fonts/Nunito-Medium.woff2";
-import "./assets/fonts/PTSans-Bold.woff";
-import "./assets/fonts/PTSans-Bold.woff2";
-import "./assets/fonts/PTSans-Medium.woff";
-import "./assets/fonts/PTSans-Medium.woff2";
 
 // import { Route, Routes } from "react-router-dom";
 // import Form from "./components/forms/Form";

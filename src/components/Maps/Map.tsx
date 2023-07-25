@@ -6,7 +6,7 @@ import {
 	Popup,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import "./map.scss";
+import "../../assets/styles/components/Map.scss";
 import { gql, useQuery } from "@apollo/client";
 import { getCities } from "../../graphql/city.server";
 import L from "leaflet";

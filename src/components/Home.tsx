@@ -1,4 +1,4 @@
-import './home.scss'
+import '../assets/styles/layouts/Home.scss'
 import Map from "./Maps/Map";
 import WelcomeTitle from "./WelcomeTitle/WelcomeTitle";
 

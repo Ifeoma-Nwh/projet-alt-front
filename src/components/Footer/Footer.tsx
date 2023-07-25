@@ -1,4 +1,4 @@
-import "./footer.scss";
+import "../../assets/styles/components/Footer.scss";
 import twitterLogo from "../../assets/images/socialmedia/twitter.svg";
 import facebookLogo from "../../assets/images/socialmedia/facebook.svg";
 import instagramLogo from "../../assets/images/socialmedia/instagram.svg";

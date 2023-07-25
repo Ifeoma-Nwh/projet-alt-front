@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import "./searchBar.scss";
+import "../../assets/styles/components/SearchBar.scss";
 import mapPointer from "../../assets/images/mapPointer.svg";
 
 interface IData {

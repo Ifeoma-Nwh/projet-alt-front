@@ -1,4 +1,4 @@
-import "./formInput.scss";
+import "../../assets/styles/components/FormInput.scss";
 
 interface IProps {
   label: string
