@@ -1,0 +1,43 @@
+@import "./variables.scss";
+
+// Grid
+// ---------------------------------------------
+
+// Responsive
+// ---------------------------------------------
+
+/// @media-query mobile first
+/// @param {String} $breakpoint
+/// @param {Object} @content
+@mixin breakpoint-up($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+/// @media-query desktop first
+/// @param {String} $breakpoint
+/// @param {Object} @content
+@mixin breakpoint-down($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+/// @media-query tablet
+/// @param {String} $breakpointMin
+/// @param {String} $breakpointMax
+/// @param {Object} @content
+@mixin breakpoint-between($breakpointMin, $breakpointMax) {
+  @if map-has-key($breakpoints, $breakpointMin) and
+    map-has-key($breakpoints, $breakpointMax)
+  {
+    @media (min-width: map-get($breakpoints, $breakpointMin)) and (max-width: map-get($breakpoints, $breakpointMax)) {
+      @content;
+    }
+  }
+}
