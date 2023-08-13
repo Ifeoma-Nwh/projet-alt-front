@@ -1,10 +1,49 @@
-@import "./variables.scss";
+/* BREAKPOINTS */
+$breakpoints: (
+  xs: 360px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
 
-// Grid
-// ---------------------------------------------
+$col-breakpoints: (
+  "xs": 0,
+  "sm": 480px,
+  "md": 720px,
+  "lg": 960px,
+  "xl": 1200px,
+);
 
-// Responsive
-// ---------------------------------------------
+@mixin xs {
+  @media (min-width: map-get($col-breakpoints, "xs")) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: map-get($col-breakpoints, "sm")) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: map-get($col-breakpoints, "md")) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: map-get($col-breakpoints, "lg")) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: map-get($col-breakpoints, "xl")) {
+    @content;
+  }
+}
 
 /// @media-query mobile first
 /// @param {String} $breakpoint
