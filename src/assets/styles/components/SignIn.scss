@@ -1,31 +1,12 @@
-.button_wrapper_styles {  
-  z-index: 1;
-}
+@import "../utilities/placeholders.scss";
+@import "../utilities/variables.scss";
 
-.connexionBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  padding: 15px;
+.signin-button {
+  cursor: pointer;
+  @extend %h4;
+  padding: 10px 15px;
   border: 0px;
   border-radius: 10px;
-  font-size: 1.4rem;
-  margin-top:6px;
-  margin-right: 4rem;
-  border: solid 2px #29a796;
-  background: #29a796;
-  color:white;
+  background: $color-text;
+  color: white;
 }
-
-.otherContentStyles {
-  position: relative;
-  padding: 10px;
-  z-index: 2;
-}
-
-// @media screen and (max-width: 1060px){
-//   .connexionBtn{
-//    display:none;
-//   }
-//  }

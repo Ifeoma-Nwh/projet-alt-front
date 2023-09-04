@@ -4,17 +4,15 @@ import facebookLogo from "../../assets/images/socialmedia/facebook.svg";
 import instagramLogo from "../../assets/images/socialmedia/instagram.svg";
 
 const Footer = () => {
-	return (
-		<footer className='footer'>
-			<div className='footer__content'>
-				<div className='footer__content--social'>
-					<img src={facebookLogo} alt='logo twitter' />
-					<img src={twitterLogo} alt='logo twitter' />
-					<img src={instagramLogo} alt='logo twitter' />
-				</div>
-			</div>
-		</footer>
-	);
+  return (
+    <footer className="footer">
+      <div className="footer-socials row">
+        <img className="col-3-md" src={facebookLogo} alt="logo twitter" />
+        <img className="col-3-md" src={twitterLogo} alt="logo twitter" />
+        <img className="col-3-md" src={instagramLogo} alt="logo twitter" />
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

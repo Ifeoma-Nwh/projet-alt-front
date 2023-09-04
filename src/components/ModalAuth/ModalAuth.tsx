@@ -1,10 +1,9 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState } from "react";
 import "../../assets/styles/components/ModalAuth.scss";
-import { createUser, signin } from "../../graphql/users.server";
 import { useMutation } from "@apollo/client";
 import Modal from "../Modal/Modal";
-
 import { useUser } from "../../context/UserContext";
+import { signin, createUser } from "../../graphql/users.server";
 
 export interface IProps {
   open: boolean;
@@ -13,35 +12,61 @@ export interface IProps {
 
 export const ModalAuth = ({ open, onClose, ...props }: IProps) => {
   const [authMode, setAuthMode] = useState("signin");
-
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   const { login } = useUser();
-
-  const [handleSigninMutation, { data, loading }] = useMutation(signin, {
+  const [handleSigninMutation] = useMutation(signin, {
     variables: {
       email,
       password,
     },
   });
 
-  // const [handleSignupMutation, { data, loading, error }] =
-  //   useMutation(createUser);
+  const [handleSignupMutation] = useMutation(createUser, {
+    variables: {
+      email,
+      password,
+    },
+  });
 
   const handleSignin = async () => {
     try {
-      const userSigninDatas = await handleSigninMutation();
-      if ("signin" in userSigninDatas?.data) {
+      const userSigninData = await handleSigninMutation();
+      if ("signin" in userSigninData?.data) {
         setEmail("");
         setPassword("");
-        login(userSigninDatas?.data?.signin);
+        login(userSigninData?.data?.signin);
       }
-    } catch {}
+    } catch (err) {
+      setError("Une erreur s'est produite lors de la connexion.");
+    }
+  };
+
+  const handleSignup = async () => {
+    try {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+      if (!password.match(passwordRegex)) {
+        setError(
+          "Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et doit être au minimum 8 caractères."
+        );
+        return;
+      }
+
+      const userSignupData = await handleSignupMutation();
+      if ("createUser" in userSignupData?.data) {
+        setEmail("");
+        setPassword("");
+        setAuthMode("signin");
+      }
+    } catch (err) {
+      setError("Une erreur s'est produite lors de l'inscription.");
+    }
   };
 
   const changeAuthMode = () => {
-    setAuthMode(authMode === "signup" ? "signup" : "signin");
+    setAuthMode(authMode === "signup" ? "signin" : "signup");
   };
 
   if (!open) return null;
@@ -49,7 +74,9 @@ export const ModalAuth = ({ open, onClose, ...props }: IProps) => {
     <>
       <Modal onClose={onClose} open={open}>
         <>
-          <div className="modalAuth__title">Se connecter</div>
+          <div className="modalAuth__title">
+            {authMode === "signin" ? "Se connecter" : "S'inscrire"}
+          </div>
 
           <div className="modalAuth__input">
             <div className="modalAuth__signin-input">
@@ -57,7 +84,6 @@ export const ModalAuth = ({ open, onClose, ...props }: IProps) => {
                 Email
               </label>
               <input
-                disabled={loading}
                 type="email"
                 name="email"
                 value={email}
@@ -69,7 +95,6 @@ export const ModalAuth = ({ open, onClose, ...props }: IProps) => {
                 Mot de passe
               </label>
               <input
-                disabled={loading}
                 type="password"
                 name="password"
                 value={password}
@@ -77,10 +102,23 @@ export const ModalAuth = ({ open, onClose, ...props }: IProps) => {
                   setPassword(e.target.value);
                 }}
               />
+              {error && <div className="modalAuth__error">{error}</div>}
             </div>
             <div className="modalAuth__submit">
-              <button onClick={handleSignin}>Connexion</button>
+              {authMode === "signin" ? (
+                <button onClick={handleSignin}>Connexion</button>
+              ) : (
+                <button onClick={handleSignup}>S'inscrire</button>
+              )}
             </div>
+          </div>
+
+          <div className="modalAuth__switch">
+            <button onClick={changeAuthMode}>
+              {authMode === "signin"
+                ? "Pas de compte ? Inscris-toi !"
+                : "Déjà un compte ? Connecte-toi !"}
+            </button>
           </div>
         </>
       </Modal>
