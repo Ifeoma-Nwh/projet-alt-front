@@ -1,16 +1,7 @@
-import '../assets/styles/layouts/Home.scss'
-import Map from "./Maps/Map";
-import WelcomeTitle from "./WelcomeTitle/WelcomeTitle";
+import "../assets/styles/layouts/Home.scss";
 
 function Home() {
-	return (
-		<>
-			<div className='home'>
-			<WelcomeTitle />
-				<Map />
-			</div>
-		</>
-	);
+  return <div className="home-wrapper">Welcome to City Guide ! :)</div>;
 }
 
 export default Home;

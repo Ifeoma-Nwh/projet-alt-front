@@ -5,7 +5,7 @@
 @import "./utilities/variables.scss";
 @import "./utilities/placeholders.scss";
 
-/* Layouts */
+/* Components */
 @import "./components/Footer.scss";
 @import "./components/FormInput.scss";
 @import "./components/Map.scss";
@@ -14,8 +14,10 @@
 @import "./components/SearchBar.scss";
 @import "./components/SignIn.scss";
 
-/* Components */
+/* Layouts */
 @import "./layouts/Cities.scss";
 @import "./layouts/Contact.scss";
 @import "./layouts/Home.scss";
 @import "./layouts/Main.scss";
+@import "./layouts/Account.scss";
+@import "./layouts/PointOfInterest.scss";
