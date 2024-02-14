@@ -82,7 +82,7 @@ const PointOfInterest = () => {
     : [];
 
   return (
-    <div className="point-of-interest">
+    <div className="poi-section">
       <h2>{pointOfInterest.name}</h2>
       <p>{pointOfInterest.description}</p>
 

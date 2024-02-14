@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import "../../assets/styles/components/NavBar.scss";
-import DocData from "../Data.json";
 
 //import { ModalAuth } from "../ModalAuth/ModalAuth";
 import { Modal } from "../ModalAuth/Modal";
