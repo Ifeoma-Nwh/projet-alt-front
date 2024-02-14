@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "../../assets/styles/layouts/Main.scss";
 import Home from "../Home";
-import Contact from "../Contact/Contact";
+/* import Contact from "../Contact/Contact"; */
 import Cities from "../Cities/Cities";
 import AdminAccount from "../../pages/AdminAccount";
 import UserAccount from "../../pages/UserAccount";
@@ -32,7 +32,7 @@ const Main = () => {
     <div className="main">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
+        {/* <Route path="/contact" element={<Contact />} /> */}
         <Route path="/cities" element={<Cities />} />
         <Route path="/pois/:id" element={<PointOfInterest />} />
         {user && (

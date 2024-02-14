@@ -2,8 +2,14 @@
 @import "../utilities/variables.scss";
 
 header {
-  margin-top: 30px;
-  margin-bottom: 30px;
+  position: fixed;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #0f192d;
+  opacity: 0.95;
+  padding: 10px;
+  z-index: 1000;
   .header-wrapper {
     justify-content: space-between;
   }
@@ -14,7 +20,7 @@ header {
 
     .link-item {
       @extend %h4;
-      color: $color-text;
+      color: $color-text-light;
       font-family: $font-accent;
       max-width: fit-content;
       width: 100%;

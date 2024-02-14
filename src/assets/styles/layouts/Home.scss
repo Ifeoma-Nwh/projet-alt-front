@@ -1,7 +1,181 @@
-.home {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-  width:100%; 
-  height:700px;  
+@import "../utilities/placeholders.scss";
+@import "../utilities/variables.scss";
+
+.home-bg {
+  background-image: url("../../images/banner-img.jpg");
+  width: 100%;
+  height: 75vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  top: 0;
+  left: auto;
+  z-index: -1;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-color: rgba($color: $color-primary-400, $alpha: 0.7);
+    filter: blur(10px);
+  }
+  &::after {
+    background-image: url("../../images/banner-img.jpg");
+    width: 100%;
+    height: 75vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+.home-title {
+  color: $color-text-light;
+  font-family: $font-title;
+  font-size: 8rem;
+  letter-spacing: 40px;
+  color: $color-secondary;
+  &__left {
+    position: absolute;
+    top: 20%;
+    left: 25%;
+  }
+  &__right {
+    position: absolute;
+    top: 60%;
+    left: 40%;
+  }
+  &__left,
+  &__right {
+    span {
+      color: $color-text-light;
+    }
+  }
+}
+
+.home-content {
+  h1 {
+    @extend %big-text;
+    padding-top: 50px;
+    margin-bottom: 20px;
+  }
+
+  .home-slider {
+    .slider-wrapper {
+      .slide-body {
+        height: auto;
+        background-color: rgba($color: $color-primary-400, $alpha: 0.15);
+        border-radius: 10px;
+        .slide-img {
+          width: 100%;
+          height: 250px;
+          object-fit: cover;
+          border-bottom-left-radius: 15px;
+          border-bottom-right-radius: 15px;
+        }
+        .slide-content {
+          padding: 0 20px;
+          &__title {
+            @extend %h3;
+            color: $color-secondary;
+            font-family: $font-title;
+            margin: 10px 0 0;
+          }
+          &__cat {
+            @extend %text-xs;
+            color: #5e5e5e;
+            font-family: $font-subtitle;
+            margin: 0;
+          }
+          &__desc {
+            @extend %text-lg;
+            color: $color-text;
+            font-family: $font-text;
+            margin: 5px 0 0;
+          }
+          &__town {
+            @extend %text-base;
+            color: $color-text;
+            font-family: $font-text;
+            margin: 5px 0 0;
+          }
+          &__buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            button {
+              cursor: pointer;
+              background: none;
+              border: none;
+              margin: 0 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .home-grid {
+    margin-top: 100px;
+    background-image: url("../../images/home-grid-img.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 700px;
+    position: relative;
+    z-index: -1;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($color: $color-primary-400, $alpha: 0.7);
+      filter: blur(5px);
+      z-index: -1;
+    }
+    &__title {
+      color: $color-text-light;
+      font-family: $font-title;
+    }
+    .grid-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+      margin-top: 50px;
+      .grid-item {
+        width: 200px;
+        height: 200px;
+        border: 3px solid $color-text-light;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        &__icon {
+          width: 100px;
+          height: 100px;
+          svg {
+            width: 100%;
+            height: 100%;
+            stroke: $color-secondary;
+          }
+        }
+        &__title {
+          @extend %text-xl;
+          color: $color-text-light;
+          font-family: $font-title;
+          text-align: center;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
 }
