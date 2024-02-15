@@ -64,7 +64,9 @@ const Contact = () => {
     e.preventDefault();
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
   return (

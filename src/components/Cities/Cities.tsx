@@ -51,7 +51,7 @@ const PointsOfInterestByCity = () => {
   }
 
   return (
-    <div>
+    <div className="cities-section">
       <h1>Points d'intérêt par ville</h1>
       {cities?.map((city) => (
         <div key={city?.id}>

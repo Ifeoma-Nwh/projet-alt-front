@@ -2,16 +2,76 @@
 @import "../utilities/placeholders.scss";
 
 footer {
-  margin-top: 50px;
-  min-height: 10vh;
-  background: $color-secondary;
-
-  .footer-socials {
+  min-height: 30vh;
+  background: $color-primary-400;
+  position: relative;
+  background: $color-primary-400;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: auto;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(7, 11, 20, 0) 0%, #070b14 60%);
+  }
+  .footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  .footer-about {
+    width: 45%;
+    padding: 50px 0;
+    h2 {
+      @extend %h2;
+      color: $color-text-light;
+      font-family: $font-title;
+      margin-bottom: 20px;
+    }
+    &__desc {
+      @extend %text-lg;
+      color: $color-text-light;
+      font-family: $font-subtitle;
+      margin: 10px 0;
+    }
+    &__copyright {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 50px;
+      p {
+        @extend %text-xs;
+        color: $color-text-light;
+        font-family: $font-subtitle;
+      }
+    }
   }
 
-  img {
-    margin: 0 20px;
-    width: 50px;
-    height: 50px;
+  .footer-contact {
+    width: 45%;
+    padding: 50px 0;
+    .contact-form {
+      height: 100%;
+      h2 {
+        @extend %h2;
+        color: $color-text-light;
+        font-family: $font-title;
+        margin-bottom: 20px;
+      }
+    }
+    .contact-btn {
+      text-align: right;
+      &__submit {
+        @extend %btn-primary-outline;
+        margin-top: 20px;
+        width: 10%;
+        width: fit-content;
+      }
+      &__sent {
+        @extend %text-sm;
+        color: $color-secondary;
+        font-family: $font-subtitle;
+      }
+    }
   }
 }
