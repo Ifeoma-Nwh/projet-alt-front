@@ -30,6 +30,15 @@ function Home() {
               gap: "3rem",
               perMove: 1,
               perPage: 3,
+              pagination: false,
+              breakpoints: {
+                768: {
+                  perPage: 2,
+                },
+                576: {
+                  perPage: 1,
+                },
+              },
             }}
             hasTrack={false}
             aria-label="..."
@@ -145,7 +154,7 @@ function Home() {
           <h1 className="container home-grid__title">
             Des destinations diversifiées
           </h1>
-          <div className="grid-wrapper">
+          <div className="container grid-wrapper">
             <div className="grid-item">
               <div className="grid-item__icon">
                 <TentTree color="white" />

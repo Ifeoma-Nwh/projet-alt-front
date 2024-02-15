@@ -21,6 +21,7 @@ const Footer = () => {
     email: "",
     message: "",
   });
+  const [isSent, setIsSent] = React.useState("");
 
   console.log(values);
 
@@ -43,6 +44,11 @@ const Footer = () => {
 
   const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (values.email && values.message) {
+      setValues({ email: "", message: "" });
+      setIsSent("Message envoyé !");
+    }
   };
 
   const onChange = (
@@ -81,8 +87,11 @@ const Footer = () => {
               />
             ))}
             <div className="contact-btn">
-              <button className="contact-btn__submit">Submit</button>
+              <button type="submit" className="contact-btn__submit">
+                Submit
+              </button>
             </div>
+            {isSent && <p className="contact-btn__sent">{isSent}</p>}
           </form>
         </div>
       </div>

@@ -67,6 +67,11 @@ footer {
         width: 10%;
         width: fit-content;
       }
+      &__sent {
+        @extend %text-sm;
+        color: $color-secondary;
+        font-family: $font-subtitle;
+      }
     }
   }
 }
