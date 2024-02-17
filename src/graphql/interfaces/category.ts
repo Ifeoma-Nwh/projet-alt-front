@@ -12,5 +12,5 @@ export interface ICategory {
   updated_at: Date;
   createdBy: IUser;
   updatedBy: IUser;
-  pointOfInterests: IPointOfInterest;
+  pointOfInterests: IPointOfInterest[];
 }

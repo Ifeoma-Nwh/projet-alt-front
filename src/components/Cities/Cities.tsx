@@ -22,7 +22,6 @@ const PointsOfInterestByCity = () => {
     Cities: ICity[];
   }>(getCities);
 
-  // État pour stocker les points d'intérêt et les villes
   const [pointsOfInterest, setPointsOfInterest] = useState<IPointOfInterest[]>(
     []
   );

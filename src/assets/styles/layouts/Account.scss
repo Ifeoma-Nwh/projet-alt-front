@@ -1,0 +1,12 @@
+@import "../utilities/variables.scss";
+@import "../utilities/placeholders.scss";
+
+.account {
+  margin: 20vh auto;
+  &__title {
+    @extend %h2;
+    color: $color-primary;
+    font-family: $font-title;
+    margin-bottom: 50px;
+  }
+}
