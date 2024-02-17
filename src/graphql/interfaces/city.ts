@@ -13,5 +13,5 @@ export interface ICity {
   updatedById: number;
   createdBy: IUser;
   updatedBy: IUser;
-  pointOfInterests: IPointOfInterest;
+  pointOfInterests: IPointOfInterest[];
 }

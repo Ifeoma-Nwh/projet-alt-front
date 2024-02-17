@@ -19,8 +19,8 @@ export interface IPointOfInterest {
   adress: string;
   createdBy: IUser;
   updatedBy: IUser;
-  comments: IComment;
-  pictures: IPicture;
+  comments: IComment[];
+  pictures: IPicture[];
   city: ICity;
-  categories: ICategory;
+  categories: ICategory[];
 }
