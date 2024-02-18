@@ -1,7 +1,8 @@
 @import "../utilities/placeholders.scss";
 @import "../utilities/variables.scss";
 
-.signin-button {
+.signin-button,
+.logout-button {
   cursor: pointer;
   @extend %h4;
   padding: 10px 15px;

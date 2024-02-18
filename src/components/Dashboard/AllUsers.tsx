@@ -75,7 +75,7 @@ const AllUsers = () => {
             {users?.map((user) => (
               <Tr key={user.id}>
                 <Td>{user.email}</Td>
-                <Td>{user.role}</Td>
+                <Td>{user.role === 1 ? "Admin" : "Utilisateur"}</Td>
                 <Td>
                   {user.role !== 1 && (
                     <Trash2

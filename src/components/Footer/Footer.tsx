@@ -58,7 +58,7 @@ const Footer = () => {
   };
 
   return (
-    <footer>
+    <footer className="footer">
       <div className="container footer-wrapper">
         <div className="footer-about">
           <h2>About us</h2>

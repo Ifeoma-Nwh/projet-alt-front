@@ -47,7 +47,7 @@ export default function NavBar({ ModalVisible, visible }: any) {
   };
 
   return (
-    <header className="container">
+    <header className="container header">
       <div className="header-wrapper row">
         <div className="header-nav row">
           <NavLink to="/" key="CityGuide">

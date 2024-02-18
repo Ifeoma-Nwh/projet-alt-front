@@ -7,6 +7,7 @@ export const getPictures = gql`
       url
       pointOfInterest {
         id
+        name
       }
     }
   }
@@ -17,6 +18,16 @@ export const getPictureByPOIID = gql`
     pictureByPOIId(pointOfInterestId: $pointOfInterestId) {
       id
       url
+    }
+  }
+`;
+
+export const uploadPicture = gql`
+  mutation UploadPicture($data: PictureInput!) {
+    uploadPicture(data: $data) {
+      id
+      url
+      pointOfInterestId
     }
   }
 `;

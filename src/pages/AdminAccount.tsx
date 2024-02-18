@@ -13,6 +13,7 @@ import "../assets/styles/layouts/Account.scss";
 import AllCities from "../components/Dashboard/AllCities";
 import AllCategories from "../components/Dashboard/AllCategories";
 import AllUsers from "../components/Dashboard/AllUsers";
+import AllPictures from "../components/Dashboard/AllPictures";
 
 const AdminAccount = () => {
   return (
@@ -23,6 +24,7 @@ const AdminAccount = () => {
           <Tab>Points d'intérêt</Tab>
           <Tab>Villes</Tab>
           <Tab>Catégories</Tab>
+          <Tab>Images</Tab>
           <Tab>Utilisateurs</Tab>
         </TabList>
 
@@ -35,6 +37,9 @@ const AdminAccount = () => {
           </TabPanel>
           <TabPanel>
             <AllCategories />
+          </TabPanel>
+          <TabPanel>
+            <AllPictures />
           </TabPanel>
           <TabPanel>
             <AllUsers />

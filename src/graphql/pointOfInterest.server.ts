@@ -67,12 +67,10 @@ export const createPOI = gql`
       id
       adress
       name
+      description
       latitude
       longitude
-      city {
-        id
-        name
-      }
+      cityId
     }
   }
 `;

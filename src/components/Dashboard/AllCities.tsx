@@ -18,11 +18,79 @@ import {
   Th,
   Td,
   TableContainer,
+  CircularProgress,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  Input,
 } from "@chakra-ui/react";
-import { CircularProgress } from "@chakra-ui/react";
-import { Trash2 } from "lucide-react";
+import { Trash2, PencilLine } from "lucide-react";
 
 import { useUser } from "../../context/UserContext";
+
+export const CreateCityModal = () => {
+  const [createCityMutation] = useMutation(createCity, {
+    refetchQueries: ["getCities"],
+  });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [nameInput, setNameInput] = useState("");
+
+  const handleCreateCity = () => {
+    createCityMutation({
+      variables: {
+        data: {
+          name: nameInput,
+        },
+      },
+    });
+    setNameInput("");
+  };
+
+  const closeModal = () => {
+    onClose();
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <Button onClick={onOpen}>Ajouter</Button>
+
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={closeModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Crée une nouvelle ville</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Nom de la ville</FormLabel>
+              <Input
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleCreateCity} colorScheme="blue" mr={3}>
+              Envoyer
+            </Button>
+            <Button onClick={closeModal}>Fermer</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
+export const EditCityModal = () => {};
 
 const AllCities = () => {
   const { role } = useUser();
@@ -35,9 +103,9 @@ const AllCities = () => {
     Cities: ICity[];
   }>(getCities);
 
-  const [cities, setCities] = useState<ICity[]>([]);
-
   const [handleDeleteCityMutation] = useMutation(deleteCity);
+
+  const [cities, setCities] = useState<ICity[]>([]);
 
   useEffect(() => {
     if (!citiesLoading && citiesData && citiesData.Cities) {
@@ -67,6 +135,7 @@ const AllCities = () => {
 
   return (
     <div>
+      <CreateCityModal />
       <TableContainer>
         <Table variant="simple">
           <Thead>

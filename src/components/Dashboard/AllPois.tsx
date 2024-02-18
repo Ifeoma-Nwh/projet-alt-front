@@ -8,7 +8,6 @@ import {
   deletePOI,
 } from "../../graphql/pointOfInterest.server";
 
-import { getPictures } from "../../graphql/picture.server";
 import { getCategories } from "../../graphql/category.server";
 
 import {
@@ -19,16 +18,195 @@ import {
   Th,
   Td,
   TableContainer,
-  Text,
+  CircularProgress,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Select,
 } from "@chakra-ui/react";
-import { CircularProgress } from "@chakra-ui/react";
-import { Trash2 } from "lucide-react";
+import { Trash2, PencilLine } from "lucide-react";
 
 import { IPointOfInterest } from "../../graphql/interfaces/pointofinterest";
-import { IPicture } from "../../graphql/interfaces/picture";
 import { ICategory } from "../../graphql/interfaces/category";
 
 import { useUser } from "../../context/UserContext";
+import { getCities } from "../../graphql/city.server";
+import { ICity } from "../../graphql/interfaces/city";
+
+export const CreatePointOfInterestModal = () => {
+  const [createPOIMutation] = useMutation(createPOI, {
+    refetchQueries: ["getPOIS"],
+  });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [nameInput, setNameInput] = useState<string>("");
+  const [addressInput, setAddressInput] = useState<string>("");
+  const [descriptionInput, setDescriptionInput] = useState<string>("");
+  const [cityInput, setCityInput] = useState<string>("");
+  const [categoryInput, setCategoryInput] = useState<string>("");
+
+  const {
+    loading: citiesLoading,
+    error: citiesError,
+    data: citiesData,
+  } = useQuery<{
+    Cities: ICity[];
+  }>(getCities);
+
+  const {
+    loading: categoriesLoading,
+    error: categoriesError,
+    data: categoriesData,
+  } = useQuery<{
+    Categories: ICategory[];
+  }>(getCategories);
+
+  const [cities, setCities] = useState<ICity[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+
+  useEffect(() => {
+    if (!citiesLoading && citiesData && citiesData.Cities) {
+      setCities(citiesData.Cities);
+    }
+  }, [citiesLoading, citiesData]);
+
+  useEffect(() => {
+    if (!categoriesLoading && categoriesData && categoriesData.Categories) {
+      setCategories(categoriesData.Categories);
+    }
+  }, [categoriesLoading, categoriesData]);
+
+  if (citiesLoading) {
+    return <CircularProgress isIndeterminate color="#ff4700" size="30px" />;
+  }
+
+  if (citiesError) {
+    console.log(citiesError);
+    return <div>Une erreur s'est produite lors du chargement des données.</div>;
+  }
+
+  if (categoriesLoading) {
+    return <CircularProgress isIndeterminate color="#ff4700" size="30px" />;
+  }
+
+  if (categoriesError) {
+    console.log(categoriesError);
+    return <div>Une erreur s'est produite lors du chargement des données.</div>;
+  }
+
+  const handleCreatePOI = () => {
+    createPOIMutation({
+      variables: {
+        data: {
+          name: nameInput,
+          adress: addressInput,
+          description: descriptionInput,
+          cityId: parseFloat(cityInput),
+        },
+        categoryId: parseFloat(categoryInput),
+      },
+    });
+    setNameInput("");
+    setAddressInput("");
+    setDescriptionInput("");
+    setCityInput("");
+    setCategoryInput("");
+  };
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCityInput(e.target.value);
+  };
+
+  const closeModal = () => {
+    onClose();
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <Button onClick={onOpen}>Ajouter</Button>
+
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={closeModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Crée une nouvelle point d'interet</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Nom</FormLabel>
+              <Input
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Adresse</FormLabel>
+              <Input
+                value={addressInput}
+                onChange={(e) => setAddressInput(e.target.value)}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Description</FormLabel>
+              <Textarea
+                value={descriptionInput}
+                onChange={(e) => setDescriptionInput(e.target.value)}
+                placeholder="Ecrivez nous une description..."
+                size="sm"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Ville</FormLabel>
+              <Select
+                value={cityInput}
+                onChange={handleCityChange}
+                placeholder="Choisissez une ville"
+              >
+                {cities.map((city) => (
+                  <option key={city.id} value={city.id}>
+                    {city.name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Categorie</FormLabel>
+              <Select
+                value={categoryInput}
+                onChange={(e) => setCategoryInput(e.target.value)}
+                placeholder="Choisissez une categorie"
+              >
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleCreatePOI} colorScheme="blue" mr={3}>
+              Envoyer
+            </Button>
+            <Button onClick={closeModal}>Fermer</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
+export const EditCityModal = () => {};
 
 const AllPois = () => {
   const { role } = useUser();
@@ -41,47 +219,17 @@ const AllPois = () => {
     PointOfinterests: IPointOfInterest[];
   }>(getPOIS);
 
-  const {
-    loading: picturesLoading,
-    error: picturesError,
-    data: picturesData,
-  } = useQuery<{
-    Pictures: IPicture[];
-  }>(getPictures);
-
-  const {
-    loading: categoriesLoading,
-    error: categoriesError,
-    data: categoriesData,
-  } = useQuery<{
-    Categories: ICategory[];
-  }>(getCategories);
-
   const [handleDeletePOI] = useMutation(deletePOI);
 
   const [pointsOfInterests, setPointsOfInterests] = useState<
     IPointOfInterest[]
   >([]);
-  const [pictures, setPictures] = useState<IPicture[]>([]);
-  const [categories, setCategories] = useState<ICategory[]>([]);
 
   useEffect(() => {
     if (!poisLoading && poisData && poisData.PointOfinterests) {
       setPointsOfInterests(poisData.PointOfinterests);
     }
   }, [poisLoading, poisData]);
-
-  useEffect(() => {
-    if (!picturesLoading && picturesData && picturesData.Pictures) {
-      setPictures(picturesData.Pictures);
-    }
-  }, [picturesLoading, picturesData]);
-
-  useEffect(() => {
-    if (!categoriesLoading && categoriesData && categoriesData.Categories) {
-      setCategories(categoriesData.Categories);
-    }
-  }, [categoriesLoading, categoriesData]);
 
   if (poisLoading) {
     return <CircularProgress isIndeterminate color="#ff4700" size="120px" />;
@@ -105,6 +253,7 @@ const AllPois = () => {
 
   return (
     <div>
+      <CreatePointOfInterestModal />
       <TableContainer>
         <Table>
           <Thead>
@@ -113,7 +262,6 @@ const AllPois = () => {
               <Th>Description</Th>
               <Th>Adresse</Th>
               <Th>Ville</Th>
-              <Th>Images</Th>
               <Th>Catégories</Th>
               <Th>Date de création</Th>
               <Th>Actions</Th>
@@ -126,18 +274,6 @@ const AllPois = () => {
                 <Td>{pointOfInterest.description}</Td>
                 <Td>{pointOfInterest.adress}</Td>
                 <Td>{pointOfInterest.city.name}</Td>
-                <Td>
-                  {picturesError ? (
-                    <p>Une erreur s'est produite</p>
-                  ) : (
-                    pictures
-                      .filter(
-                        (picture) =>
-                          picture.pointOfInterest.id === pointOfInterest.id
-                      )
-                      .map((picture) => <p key={picture.id}>{picture.url}</p>)
-                  )}
-                </Td>
                 <Td>
                   {pointOfInterest.categories?.map((category: ICategory) => (
                     <p key={category.id}>{category.name}</p>

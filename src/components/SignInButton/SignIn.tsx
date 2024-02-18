@@ -5,16 +5,13 @@ import { useUser } from "../../context/UserContext";
 
 function SigninBtn() {
   const [isOpen, setIsOpen] = useState(false);
-  const { email, logout } = useUser();
+  const { user, logout } = useUser();
 
   return (
     <>
       <div className="signin-wrapper">
-        {email ? (
+        {user ? (
           <>
-            <button className="signin-button" onClick={() => setIsOpen(true)}>
-              {email}
-            </button>
             <button className="logout-button" onClick={logout}>
               Se déconnecter
             </button>

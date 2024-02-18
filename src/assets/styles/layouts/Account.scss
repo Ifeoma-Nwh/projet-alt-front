@@ -2,7 +2,7 @@
 @import "../utilities/placeholders.scss";
 
 .account {
-  margin: 20vh auto;
+  margin: 15vh auto 20vh auto;
   &__title {
     @extend %h2;
     color: $color-primary;

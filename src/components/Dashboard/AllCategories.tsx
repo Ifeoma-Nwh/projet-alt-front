@@ -18,11 +18,79 @@ import {
   Th,
   Td,
   TableContainer,
+  CircularProgress,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  Input,
 } from "@chakra-ui/react";
-import { CircularProgress } from "@chakra-ui/react";
-import { Trash2 } from "lucide-react";
+import { Trash2, PencilLine } from "lucide-react";
 
 import { useUser } from "../../context/UserContext";
+
+export const CreateCategoryModal = () => {
+  const [createCategoryMutation] = useMutation(createCategory, {
+    refetchQueries: ["getCategories"],
+  });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [nameInput, setNameInput] = useState("");
+
+  const handleCreateCategory = () => {
+    createCategoryMutation({
+      variables: {
+        data: {
+          name: nameInput,
+        },
+      },
+    });
+    setNameInput("");
+  };
+
+  const closeModal = () => {
+    onClose();
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <Button onClick={onOpen}>Ajouter</Button>
+
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={closeModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Crée une nouvelle catégorie</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Nom de la catégorie</FormLabel>
+              <Input
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleCreateCategory} colorScheme="blue" mr={3}>
+              Envoyer
+            </Button>
+            <Button onClick={closeModal}>Fermer</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
+export const EditCityModal = () => {};
 
 const AllCategories = () => {
   const { role } = useUser();
@@ -63,10 +131,10 @@ const AllCategories = () => {
       });
       window.location.reload();
     }
-    window.location.reload();
   };
   return (
     <div>
+      <CreateCategoryModal />
       <TableContainer>
         <Table variant="simple">
           <Thead>
