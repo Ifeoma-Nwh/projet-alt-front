@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 
 import {
   getCategories,
-  getCategory,
+  updateCategory,
   createCategory,
   deleteCategory,
 } from "../../graphql/category.server";
@@ -31,6 +31,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { Trash2, PencilLine } from "lucide-react";
 
@@ -38,7 +39,7 @@ import { useUser } from "../../context/UserContext";
 
 export const CreateCategoryModal = () => {
   const [createCategoryMutation] = useMutation(createCategory, {
-    refetchQueries: ["getCategories"],
+    refetchQueries: [getCategories, "Categories"],
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,16 +56,11 @@ export const CreateCategoryModal = () => {
     setNameInput("");
   };
 
-  const closeModal = () => {
-    onClose();
-    window.location.reload();
-  };
-
   return (
     <>
       <Button onClick={onOpen}>Ajouter</Button>
 
-      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={closeModal}>
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Crée une nouvelle catégorie</ModalHeader>
@@ -82,7 +78,7 @@ export const CreateCategoryModal = () => {
             <Button onClick={handleCreateCategory} colorScheme="blue" mr={3}>
               Envoyer
             </Button>
-            <Button onClick={closeModal}>Fermer</Button>
+            <Button onClick={onClose}>Fermer</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -90,7 +86,56 @@ export const CreateCategoryModal = () => {
   );
 };
 
-export const EditCityModal = () => {};
+export const EditCategoryModal = ({ idCategory }: { idCategory: number }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [nameInput, setNameInput] = useState("");
+
+  const [updateCategoryMutation] = useMutation(updateCategory, {
+    refetchQueries: [getCategories],
+  });
+
+  const handleUpdateCategory = () => {
+    updateCategoryMutation({
+      variables: {
+        updateCategoryId: idCategory,
+        updateCategoryData2: {
+          name: nameInput,
+        },
+      },
+    });
+    setNameInput("");
+  };
+
+  return (
+    <>
+      <PencilLine style={{ cursor: "pointer" }} onClick={onOpen} />
+
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modifier cette catégorie</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Nouveau nom de la catégorie</FormLabel>
+              <Input
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleUpdateCategory} colorScheme="blue" mr={3}>
+              Envoyer
+            </Button>
+            <Button onClick={onClose}>Fermer</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
 
 const AllCategories = () => {
   const { role } = useUser();
@@ -99,6 +144,7 @@ const AllCategories = () => {
     loading: categoriesLoading,
     error: categoriesError,
     data: categoriesData,
+    refetch: refetchCategories,
   } = useQuery<{
     Categories: ICategory[];
   }>(getCategories);
@@ -129,7 +175,7 @@ const AllCategories = () => {
           deleteCategoryId: catId,
         },
       });
-      window.location.reload();
+      refetchCategories();
     }
   };
   return (
@@ -144,19 +190,28 @@ const AllCategories = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {categories.map((category) => (
-              <Tr key={category.id}>
-                <Td>{category.name}</Td>
-                <Td>
-                  <Trash2
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      handleDeleteCategory(category.id);
-                    }}
-                  />
-                </Td>
+            {categories.length === 0 ? (
+              <Tr>
+                <Td colSpan={2}>Aucune catégorie</Td>
               </Tr>
-            ))}
+            ) : (
+              categories.map((category) => (
+                <Tr key={category.id}>
+                  <Td>{category.name}</Td>
+                  <Td>
+                    <ButtonGroup gap="2">
+                      <EditCategoryModal idCategory={category.id} />
+                      <Trash2
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          handleDeleteCategory(category.id);
+                        }}
+                      />
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </TableContainer>

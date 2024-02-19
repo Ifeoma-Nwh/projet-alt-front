@@ -32,8 +32,6 @@ import {
 } from "@chakra-ui/react";
 import { Trash2, PencilLine } from "lucide-react";
 
-import { useUser } from "../../context/UserContext";
-
 import { IPointOfInterest } from "../../graphql/interfaces/pointofinterest";
 import { getPOIS } from "../../graphql/pointOfInterest.server";
 
@@ -136,8 +134,6 @@ export const CreatePictureModal = () => {
 };
 
 const AllPictures = () => {
-  const { role } = useUser();
-
   const {
     loading: picturesLoading,
     error: picturesError,
@@ -176,27 +172,33 @@ const AllPictures = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {pictures.map((picture) => (
-              <Tr key={picture?.id}>
-                <Td>
-                  <Image
-                    boxSize="150px"
-                    objectFit="cover"
-                    src={picture?.url}
-                    alt={picture?.pointOfInterest?.name}
-                  />
-                </Td>
-                <Td>{picture?.pointOfInterest?.name}</Td>
-                <Td>
-                  {/* <Trash2
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      handleDeleteCategory(category.id);
-                    }}
-                  /> */}
-                </Td>
+            {pictures.length === 0 ? (
+              <Tr>
+                <Td colSpan={3}>Aucune image. Ajoutez-en une.</Td>
               </Tr>
-            ))}
+            ) : (
+              pictures.map((picture) => (
+                <Tr key={picture?.id}>
+                  <Td>
+                    <Image
+                      boxSize="150px"
+                      objectFit="cover"
+                      src={picture?.url}
+                      alt={picture?.pointOfInterest?.name}
+                    />
+                  </Td>
+                  <Td>{picture?.pointOfInterest?.name}</Td>
+                  <Td>
+                    {/* <Trash2
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        handleDeleteCategory(category.id);
+                      }}
+                    /> */}
+                  </Td>
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </TableContainer>

@@ -10,7 +10,7 @@ import { useUser } from "../../context/UserContext";
 
 export const links = [
   /* { label: "CityGuide", path: "/" }, */
-  { label: "Explorer", path: "/cities" },
+  { label: "Explorer", path: "/explore" },
   /* { label: "Contact", path: "/contact" }, */
 ];
 

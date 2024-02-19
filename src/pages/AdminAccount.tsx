@@ -21,22 +21,22 @@ const AdminAccount = () => {
       <h2 className="account__title">Admin Dashboard</h2>
       <Tabs isFitted variant="soft-rounded">
         <TabList>
-          <Tab>Points d'intérêt</Tab>
           <Tab>Villes</Tab>
           <Tab>Catégories</Tab>
+          <Tab>Points d'intérêt</Tab>
           <Tab>Images</Tab>
           <Tab>Utilisateurs</Tab>
         </TabList>
 
         <TabPanels>
           <TabPanel>
-            <AllPois />
-          </TabPanel>
-          <TabPanel>
             <AllCities />
           </TabPanel>
           <TabPanel>
             <AllCategories />
+          </TabPanel>
+          <TabPanel>
+            <AllPois />
           </TabPanel>
           <TabPanel>
             <AllPictures />

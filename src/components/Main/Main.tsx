@@ -4,7 +4,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import "../../assets/styles/layouts/Main.scss";
 import Home from "../Home";
 /* import Contact from "../Contact/Contact"; */
-import Cities from "../Cities/Cities";
+import Explorer from "../Explorer/Explorer";
 import AdminAccount from "../../pages/AdminAccount";
 import UserAccount from "../../pages/UserAccount";
 import PointOfInterest from "../PointOfInterest/PointOfInterest";
@@ -32,9 +32,8 @@ const Main = () => {
     <div className="main">
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/contact" element={<Contact />} /> */}
-        <Route path="/cities" element={<Cities />} />
-        <Route path="/pois/:id" element={<PointOfInterest />} />
+        <Route path="/explore" element={<Explorer />} />
+        <Route path="/explore/:poiId" element={<PointOfInterest />} />
         {user && (
           <>
             <Route path="/admin" element={<AdminAccount />} />

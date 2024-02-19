@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 
 import {
   getCities,
-  getCity,
+  updateCity,
   createCity,
   deleteCity,
 } from "../../graphql/city.server";
@@ -31,6 +31,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { Trash2, PencilLine } from "lucide-react";
 
@@ -38,7 +39,7 @@ import { useUser } from "../../context/UserContext";
 
 export const CreateCityModal = () => {
   const [createCityMutation] = useMutation(createCity, {
-    refetchQueries: ["getCities"],
+    refetchQueries: [getCities, "Cities"],
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,16 +56,11 @@ export const CreateCityModal = () => {
     setNameInput("");
   };
 
-  const closeModal = () => {
-    onClose();
-    window.location.reload();
-  };
-
   return (
     <>
       <Button onClick={onOpen}>Ajouter</Button>
 
-      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={closeModal}>
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Crée une nouvelle ville</ModalHeader>
@@ -82,7 +78,7 @@ export const CreateCityModal = () => {
             <Button onClick={handleCreateCity} colorScheme="blue" mr={3}>
               Envoyer
             </Button>
-            <Button onClick={closeModal}>Fermer</Button>
+            <Button onClick={onClose}>Fermer</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -90,7 +86,55 @@ export const CreateCityModal = () => {
   );
 };
 
-export const EditCityModal = () => {};
+export const EditCityModal = ({ idCity }: { idCity: number }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [updateCityMutation] = useMutation(updateCity, {
+    refetchQueries: [getCities, "Cities"],
+  });
+  const [editCityNameInput, setEditCityNameInput] = useState("");
+
+  const handleUpdateCity = () => {
+    updateCityMutation({
+      variables: {
+        updateCityId: idCity,
+        data: {
+          name: editCityNameInput,
+        },
+      },
+    });
+
+    setEditCityNameInput("");
+  };
+
+  return (
+    <>
+      <PencilLine style={{ cursor: "pointer" }} onClick={onOpen} />
+
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modifier cette ville</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Nouveau nom de la ville</FormLabel>
+              <Input
+                value={editCityNameInput}
+                onChange={(e) => setEditCityNameInput(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleUpdateCity} colorScheme="blue" mr={3}>
+              Envoyer
+            </Button>
+            <Button onClick={onClose}>Fermer</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
 
 const AllCities = () => {
   const { role } = useUser();
@@ -99,6 +143,7 @@ const AllCities = () => {
     loading: citiesLoading,
     error: citiesError,
     data: citiesData,
+    refetch: refetchCities,
   } = useQuery<{
     Cities: ICity[];
   }>(getCities);
@@ -129,7 +174,7 @@ const AllCities = () => {
           deleteCityId: idCity,
         },
       });
-      window.location.reload();
+      refetchCities();
     }
   };
 
@@ -145,17 +190,26 @@ const AllCities = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {cities.map((city) => (
-              <Tr key={city.id}>
-                <Td>{city.name}</Td>
-                <Td>
-                  <Trash2
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleDeleteCity(city.id)}
-                  />
-                </Td>
+            {cities.length === 0 ? (
+              <Tr>
+                <Td colSpan={2}>Aucune ville. Ajoutez-en une.</Td>
               </Tr>
-            ))}
+            ) : (
+              cities.map((city) => (
+                <Tr key={city.id}>
+                  <Td>{city.name}</Td>
+                  <Td>
+                    <ButtonGroup gap="2">
+                      <EditCityModal idCity={city.id} />
+                      <Trash2
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleDeleteCity(city.id)}
+                      />
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </TableContainer>

@@ -26,6 +26,7 @@ const AllUsers = () => {
     data: usersData,
     loading: usersLoading,
     error: usersError,
+    refetch: refetchUsers,
   } = useQuery<{
     FindAllUsers: IUser[];
   }>(getUsers);
@@ -56,7 +57,7 @@ const AllUsers = () => {
           deleteUserId: idUser,
         },
       });
-      window.location.reload();
+      refetchUsers();
     }
   };
 

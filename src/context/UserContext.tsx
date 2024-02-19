@@ -56,7 +56,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     onTokenChange();
-    window.location.reload();
+    window.location.href = "/";
   };
 
   return (

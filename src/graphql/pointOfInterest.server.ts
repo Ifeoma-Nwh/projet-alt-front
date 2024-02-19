@@ -57,6 +57,7 @@ export const getPOI = gql`
       }
       categories {
         id
+        name
       }
     }
   }
@@ -90,14 +91,19 @@ export const deletePOIS = gql`
 `;
 export const updatePOI = gql`
   mutation (
-    $updatePointOfInterestData2: PointOfInterestInput!
+    $categoryId: Float!
+    $data: PointOfInterestInput!
     $updatePointOfInterestId: ID!
   ) {
     updatePointOfInterest(
-      data: $updatePointOfInterestData2
+      categoryId: $categoryId
+      data: $data
       id: $updatePointOfInterestId
     ) {
-      id
+      name
+      description
+      adress
+      cityId
     }
   }
 `;
