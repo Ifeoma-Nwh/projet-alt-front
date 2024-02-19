@@ -43,6 +43,11 @@
       align-items: flex-end;
       height: 350px;
       overflow-y: scroll;
+      .comments-empty {
+        @extend %text-lg;
+        color: $color-text;
+        font-family: $font-text;
+      }
       .comment {
         width: 100%;
         background: $color-primary-100;

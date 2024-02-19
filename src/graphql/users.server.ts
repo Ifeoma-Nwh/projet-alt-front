@@ -29,6 +29,7 @@ export const createUser = gql`
     createUser(data: $data) {
       email
       password
+      username
     }
   }
 `;

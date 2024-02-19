@@ -1,30 +1,24 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { getFavorites } from "../graphql/users.server";
+
 import "../assets/styles/layouts/Account.scss";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import AllFavorites from "../components/Dashboard/AllFavorites";
 
 const UserAccount = () => {
-  const { loading, error, data } = useQuery(getFavorites);
-
-  if (loading) return <div>Chargement en cours...</div>;
-  if (error) return <div>Erreur: {error.message}</div>;
-
-  const { favorites } = data;
-
   return (
-    <div className="user-account">
-      <h2>Mes Favoris</h2>
-      {favorites.length === 0 ? (
-        <p>Aucun favori pour le moment.</p>
-      ) : (
-        <ul>
-          {favorites.map((favorite: any) => (
-            <li key={favorite.id}>
-              <span>{favorite.name}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="container account user-account">
+      <h2 className="account__title">Mon Dashboard</h2>
+      <Tabs isFitted variant="soft-rounded">
+        <TabList>
+          <Tab>Favories</Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel>
+            <AllFavorites />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </div>
   );
 };

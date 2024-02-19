@@ -1,9 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-
-import { getUsers, findUser, deleteUser } from "../graphql/users.server";
-
-import { useUser } from "../context/UserContext";
+import React from "react";
 
 import AllPois from "../components/Dashboard/AllPois";
 

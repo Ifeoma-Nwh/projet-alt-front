@@ -16,7 +16,6 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { Trash2 } from "lucide-react";
-import { EditCategoryModal } from "./AllCategories";
 import { IPointOfInterest } from "../../graphql/interfaces/pointofinterest";
 
 const AllFavorites = () => {
@@ -26,6 +25,7 @@ const AllFavorites = () => {
     loading: favoritesLoading,
     error: favoritesError,
     data: favoritesData,
+    refetch: refetchFavorites,
   } = useQuery(getFavorites, {
     variables: {
       userId: user?.id,
@@ -37,8 +37,9 @@ const AllFavorites = () => {
   useEffect(() => {
     if (!favoritesLoading && favoritesData && favoritesData.findAllFavorites) {
       setFavorites(favoritesData.findAllFavorites);
+      refetchFavorites();
     }
-  }, [favoritesLoading, favoritesData]);
+  }, [favoritesLoading, favoritesData, refetchFavorites]);
 
   if (favoritesLoading) {
     return <CircularProgress isIndeterminate color="#ff4700" size="120px" />;

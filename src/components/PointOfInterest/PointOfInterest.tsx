@@ -61,21 +61,27 @@ export const Comments = () => {
 
   return (
     <div className="comments-wrapper">
-      {comments
-        /* .filter((comment) => comment?.pointOfInterest?.id === idPoi!) */
-        .map((comment) => (
-          <div
-            className="comment"
-            key={comment.id}
-            id={`comment-${comment.id}`}
-          >
-            <p>{comment.comment}</p>
-            <div className="comment__note">
-              <Star fill="#ff4700" stroke="#ff4700" />
-              <p>{comment.note}</p>
+      {comments.length === 0 ? (
+        <p className="comments-empty">
+          Aucun commentaire pour le moment, n'hésite pas à partager ton avis
+        </p>
+      ) : (
+        comments
+          /* .filter((comment) => comment?.pointOfInterest?.id === idPoi!) */
+          .map((comment) => (
+            <div
+              className="comment"
+              key={comment.id}
+              id={`comment-${comment.id}`}
+            >
+              <p>{comment.comment}</p>
+              <div className="comment__note">
+                <Star fill="#ff4700" stroke="#ff4700" />
+                <p>{comment.note}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+      )}
     </div>
   );
 };

@@ -26,8 +26,11 @@ export const ModalAuth = ({ open, onClose, ...props }: IProps) => {
 
   const [handleSignupMutation] = useMutation(createUser, {
     variables: {
-      email,
-      password,
+      data: {
+        email,
+        password,
+        username: "user",
+      },
     },
   });
 
@@ -61,6 +64,7 @@ export const ModalAuth = ({ open, onClose, ...props }: IProps) => {
         setAuthMode("signin");
       }
     } catch (err) {
+      console.log(err);
       setError("Une erreur s'est produite lors de l'inscription.");
     }
   };

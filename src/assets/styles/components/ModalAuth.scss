@@ -1,4 +1,6 @@
 /*TEST ZONE------------------*/
+@import "../utilities/variables.scss";
+@import "../utilities/placeholders.scss";
 
 .overlay_styles {
   position: fixed;
@@ -61,7 +63,6 @@
 
   .modalAuth__span {
     cursor: pointer;
-    color: #ffba08;
     text-decoration: underline;
   }
 
@@ -96,7 +97,7 @@
     font-size: 1.3rem;
     border: none;
     border-radius: 10px;
-    background: #ffba08;
+    background: $color-secondary;
     color: white;
   }
 
