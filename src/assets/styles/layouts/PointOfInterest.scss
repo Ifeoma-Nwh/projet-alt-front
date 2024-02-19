@@ -16,17 +16,22 @@
         object-fit: cover;
       }
     }
-    h2 {
-      @extend %h2;
-      color: $color-primary;
-      font-family: $font-title;
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin: 20px 0;
+      h2 {
+        @extend %h3;
+        color: $color-primary;
+        font-family: $font-title;
+      }
     }
   }
   .single-poi-comments {
     width: 45%;
     h2 {
-      @extend %h2;
+      @extend %h3;
       color: $color-primary;
       font-family: $font-title;
       margin-bottom: 20px;

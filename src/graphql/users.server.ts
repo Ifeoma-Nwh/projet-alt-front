@@ -74,7 +74,7 @@ export const getFavorites = gql`
     findAllFavorites(userId: $userId) {
       id
       name
-      userId
+      cityId
     }
   }
 `;

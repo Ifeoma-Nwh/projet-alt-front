@@ -14,6 +14,7 @@ import AllCities from "../components/Dashboard/AllCities";
 import AllCategories from "../components/Dashboard/AllCategories";
 import AllUsers from "../components/Dashboard/AllUsers";
 import AllPictures from "../components/Dashboard/AllPictures";
+import AllFavorites from "../components/Dashboard/AllFavorites";
 
 const AdminAccount = () => {
   return (
@@ -26,6 +27,7 @@ const AdminAccount = () => {
           <Tab>Points d'intérêt</Tab>
           <Tab>Images</Tab>
           <Tab>Utilisateurs</Tab>
+          <Tab>Favories</Tab>
         </TabList>
 
         <TabPanels>
@@ -43,6 +45,9 @@ const AdminAccount = () => {
           </TabPanel>
           <TabPanel>
             <AllUsers />
+          </TabPanel>
+          <TabPanel>
+            <AllFavorites />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -38,9 +38,8 @@ export const createComment = gql`
       id
       comment
       note
-      createdBy {
-        id
-      }
+      pointOfInterestId
+      createdById
     }
   }
 `;

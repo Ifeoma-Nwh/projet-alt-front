@@ -13,20 +13,22 @@ import { createComment, getComments } from "../../graphql/comment.server";
 import { useUser } from "../../context/UserContext";
 
 import {
+  Button,
   CircularProgress,
   FormControl,
-  FormHelperText,
   FormLabel,
-  Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Textarea,
 } from "@chakra-ui/react";
-import { Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 
 export const Comments = () => {
+  const { poiId } = useParams();
+  const idPoi = parseFloat(poiId as string);
   const {
     loading: commentsLoading,
     error: commentsError,
@@ -41,7 +43,13 @@ export const Comments = () => {
     }
   }, [commentsLoading, commentsData]);
 
-  console.log(comments);
+  console.log(
+    comments
+      .filter((comment) => comment.pointOfInterest?.id === idPoi!)
+      .map((comment) => {
+        return comment;
+      })
+  );
 
   if (commentsLoading) {
     return <CircularProgress isIndeterminate color="#ff4700" size="120px" />;
@@ -53,21 +61,29 @@ export const Comments = () => {
 
   return (
     <div className="comments-wrapper">
-      {comments.map((comment) => (
-        <div className="comment" key={comment.id} id={`comment-${comment.id}`}>
-          <p>{comment.comment}</p>
-          <div className="comment__note">
-            <Star fill="#ff4700" stroke="#ff4700" />
-            <p>{comment.note}</p>
+      {comments
+        /* .filter((comment) => comment?.pointOfInterest?.id === idPoi!) */
+        .map((comment) => (
+          <div
+            className="comment"
+            key={comment.id}
+            id={`comment-${comment.id}`}
+          >
+            <p>{comment.comment}</p>
+            <div className="comment__note">
+              <Star fill="#ff4700" stroke="#ff4700" />
+              <p>{comment.note}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };
 
 const PointOfInterest = () => {
   const { poiId } = useParams();
+
+  const { user } = useUser();
 
   const {
     loading: poiLoading,
@@ -79,10 +95,17 @@ const PointOfInterest = () => {
     },
   });
 
+  const [AddFavoriteMutation] = useMutation(addFavorite);
+  const [RemoveFavoriteMutation] = useMutation(removeFavorite);
+
+  const [createCommentMutation] = useMutation(createComment, {
+    refetchQueries: [getComments, "Comments"],
+  });
+
   const [singlePOI, setSinglePOI] = useState<IPointOfInterest>();
 
-  const [comment, setComment] = useState("");
-  const [note, setNote] = useState(0);
+  const [addComment, setAddComment] = useState("");
+  const [addNote, setAddNote] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
@@ -102,13 +125,59 @@ const PointOfInterest = () => {
     return <div>Une erreur s'est produite lors du chargement des données.</div>;
   }
 
+  const handleCreateComment = () => {
+    const idPoi = parseFloat(poiId as string);
+    const idUser = user?.id?.toString();
+    createCommentMutation({
+      variables: {
+        data: {
+          pointOfInterestId: idPoi,
+          comment: addComment,
+          note: addNote,
+          createdById: parseFloat(idUser!),
+        },
+      },
+    });
+    setAddComment("");
+    setAddNote(0);
+  };
+
+  const handleFavorite = () => {
+    const idPoi = parseFloat(poiId as string);
+    const idUser = user?.id?.toString();
+    if (isFavorite) {
+      RemoveFavoriteMutation({
+        variables: {
+          pointOfInterestId: idPoi,
+          userId: parseFloat(idUser!),
+        },
+      });
+    } else {
+      AddFavoriteMutation({
+        variables: {
+          pointOfInterestId: idPoi,
+          userId: parseFloat(idUser!),
+        },
+      });
+    }
+    setIsFavorite(!isFavorite);
+  };
+
   return (
     <div className="container single-poi">
       <div className="single-poi-content">
         <div className="content-img">
           <img src={ImagePoi} alt="poi-img" />
         </div>
-        <h2 className="content-title">{singlePOI?.name}</h2>
+        <div className="content-header">
+          <h2 className="content-title">{singlePOI?.name}</h2>
+          <Heart
+            style={{ cursor: "pointer" }}
+            onClick={handleFavorite}
+            fill={isFavorite ? "#ff4700" : "none"}
+            stroke="#ff4700"
+          />
+        </div>
         <p className="content-city">{singlePOI?.city.name}</p>
         <div className="content-categories">
           {singlePOI?.categories.map((category: any) => (
@@ -121,13 +190,24 @@ const PointOfInterest = () => {
         <h2>Commentaires</h2>
         <Comments />
         <div className="comment-form">
-          <FormControl>
+          <FormControl mt={5}>
             <FormLabel>Commentaire</FormLabel>
-            <Input type="text" placeholder="Ajouter un commentaire" />
+            <Textarea
+              value={addComment}
+              onChange={(e) => setAddComment(e.target.value)}
+              placeholder="Ajoutez un commentaire"
+            />
           </FormControl>
-          <FormControl>
+          <FormControl mt={3}>
             <FormLabel>Note</FormLabel>
-            <NumberInput max={5} min={1}>
+            <NumberInput
+              onChange={(e) => setAddNote(parseFloat(e))}
+              size="sm"
+              maxW={20}
+              max={5}
+              min={0}
+              value={addNote}
+            >
               <NumberInputField />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -135,6 +215,9 @@ const PointOfInterest = () => {
               </NumberInputStepper>
             </NumberInput>
           </FormControl>
+          <Button onClick={handleCreateComment} colorScheme="blue" mt={4}>
+            Envoyer
+          </Button>
         </div>
       </div>
     </div>
